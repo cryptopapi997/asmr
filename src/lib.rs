@@ -46,7 +46,7 @@ pub unsafe extern "C" fn entrypoint(mut input: *mut u8) -> u32 {
         "add64 r1, r8",
         "add64 r1, 7",
         "and64 r1, 0xFFFFFFFFFFFFFFF8",
-        // Advance account cursor, decrement account counter and go back if not done
+        // Decrement account counter
         "sub64 r5, 1",
         /* END INLINE (DON'T NEED JUMP) */
 
@@ -79,7 +79,7 @@ pub unsafe extern "C" fn entrypoint(mut input: *mut u8) -> u32 {
         "lddw r8, {accounts_ptr}",
         "add64 r6, r8",
         "ldxdw r6, [r6 + 0]",
-        // Store in r7 and advance account cursor and input cursor
+        // Store in r7 and advance input cursor
         "stxdw [r7 + 0], r6",
         "add64 r1, 8",
         // Decrement account counter and go back to top if not done
