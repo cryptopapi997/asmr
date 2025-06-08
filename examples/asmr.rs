@@ -43,7 +43,7 @@ fn main() {
         }
     }
 
-    for n in [0, 1, 2, 4, 8, 16, 32, 64] {
+    for n in [2, 4, 8, 16, 32, 64] {
         println!("\nFor {n} dup accounts:");
         // nondup;
         let ixn = Instruction {

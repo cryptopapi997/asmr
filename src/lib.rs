@@ -50,9 +50,10 @@ pub unsafe extern "C" fn entrypoint(mut input: *mut u8) -> u32 {
         "sub64 r5, 1",
         /* END INLINE (DON'T NEED JUMP) */
 
-        "2:",
         // Check if finished
         "jeq r5, 0, 6f",
+
+        "2:",
         // Otherwise, increment account cursor, load dup marker, jump to dup if dup
         "add64 r7, 8",
         "ldxb r6, [r1 + 8]",
@@ -70,7 +71,9 @@ pub unsafe extern "C" fn entrypoint(mut input: *mut u8) -> u32 {
         "and64 r1, 0xFFFFFFFFFFFFFFF8",
         // Decrement account counter and go back to check if done
         "sub64 r5, 1",
-        "ja 2b",
+        "jne r5, 0, 2b",
+        "ja 6f",
+
 
         // Duplicate account case
         "5:",
