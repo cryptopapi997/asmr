@@ -47,14 +47,14 @@ pub unsafe extern "C" fn entrypoint(mut input: *mut u8) -> u32 {
         "add64 r1, 7",
         "and64 r1, 0xFFFFFFFFFFFFFFF8",
         // Advance account cursor, decrement account counter and go back if not done
-        "add64 r7, 8",
         "sub64 r5, 1",
         /* END INLINE (DON'T NEED JUMP) */
 
         "2:",
         // Check if finished
         "jeq r5, 0, 6f",
-        // Otherwise load dup marker and jump to dup if dup
+        // Otherwise, increment account cursor, load dup marker, jump to dup if dup
+        "add64 r7, 8",
         "ldxb r6, [r1 + 8]",
         "jne r6, 255, 5f",
 
@@ -69,7 +69,6 @@ pub unsafe extern "C" fn entrypoint(mut input: *mut u8) -> u32 {
         "add64 r1, 7",
         "and64 r1, 0xFFFFFFFFFFFFFFF8",
         // Advance account cursor, decrement account counter and go back to check if done
-        "add64 r7, 8",
         "sub64 r5, 1",
         "ja 2b",
 
@@ -83,7 +82,6 @@ pub unsafe extern "C" fn entrypoint(mut input: *mut u8) -> u32 {
         // Store in r7 and advance account cursor and input cursor
         "stxdw [r7 + 0], r6",
         "add64 r1, 8",
-        "add64 r7, 8",
         // Decrement account counter and go back to top if not done
         "sub64 r5, 1",
         "jne r5, 0, 2b",
@@ -112,6 +110,8 @@ pub unsafe extern "C" fn entrypoint(mut input: *mut u8) -> u32 {
         ACCOUNTS_PTR as *const AccountInfo,
         num_accounts.assume_init(),
     );
+
+    // sol_log_64(data.len() as u64, accounts.len() as u64, 0, 0, 0);
 
     process(program_id, accounts, data)
 }
