@@ -31,7 +31,7 @@ pub unsafe extern "C" fn entrypoint(mut input: *mut u8) -> u32 {
         "ldxdw r9, [r1 + 0]",
         "mov64 r5, r9",
 
-        // load account ptr (also in heap)
+        // Initialize accounts cursor
         "lddw r7, {accounts_ptr}",
 
         // first account is GUARANTEED to be nondup so we don't need dup check
@@ -41,7 +41,7 @@ pub unsafe extern "C" fn entrypoint(mut input: *mut u8) -> u32 {
         // Store account ptr and load account data len
         "stxdw [r7 + 0], r1",
         "ldxdw r8, [r1 + 72 + 8]",
-        // Advance input cursor by static data, account data and round up to next 8
+        // Advance input cursor by static data, account data, and round up to next 8
         "add64 r1, {account_total}",
         "add64 r1, r8",
         "add64 r1, 7",
@@ -64,7 +64,7 @@ pub unsafe extern "C" fn entrypoint(mut input: *mut u8) -> u32 {
         // Store account ptr and load account data len
         "stxdw [r7 + 0], r1",
         "ldxdw r8, [r1 + 72 + 8]",
-        // Advance input cursor by static data, account data and round up to next 8
+        // Advance input cursor by static data, account data, and round up to next 8
         "add64 r1, {account_total}",
         "add64 r1, r8",
         "add64 r1, 7",
