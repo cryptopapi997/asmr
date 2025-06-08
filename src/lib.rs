@@ -68,7 +68,7 @@ pub unsafe extern "C" fn entrypoint(mut input: *mut u8) -> u32 {
         "add64 r1, r8",
         "add64 r1, 7",
         "and64 r1, 0xFFFFFFFFFFFFFFF8",
-        // Advance account cursor, decrement account counter and go back to check if done
+        // Decrement account counter and go back to check if done
         "sub64 r5, 1",
         "ja 2b",
 
